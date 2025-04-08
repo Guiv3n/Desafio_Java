@@ -1,59 +1,43 @@
 package br.com.compass.models;
 
+// Classe que representa um usuário do sistema
 public class User {
-	private int id;
-	private String name;
-	private String email;
-	private String password;
-	private String permission;
-	
-	public User(int id, String name, String email, String password, String permission) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.permission = permission;
-	}
+    private String username;
+    private String password;
+    private int failedLoginAttempts;
+    private boolean isBlocked;
 
-	public int getId() {
-		return id;
-	}
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.failedLoginAttempts = 0;
+        this.isBlocked = false;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public int getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public boolean isBlocked() {
+        return isBlocked;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void incrementFailedLoginAttempts() {
+        this.failedLoginAttempts++;
+        if (this.failedLoginAttempts >= 3) {
+            this.isBlocked = true;
+        }
+    }
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPermission() {
-		return permission;
-	}
-
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
-	
-	
+    public void resetFailedLoginAttempts() {
+        this.failedLoginAttempts = 0;
+    }
 }

@@ -1,30 +1,46 @@
-package br.com.compass.services;
+package br.com.bank.service;
 
-import br.com.compass.models.Account;
-import br.com.compass.repositories.AccountRepository;
+import br.com.bank.model.User;
+import java.util.HashMap;
+import java.util.Map;
 
-//Classe responsável pelas ações relacionadas a contas bancárias.
-//Deve permitir abertura de conta, exibir saldo, realizar transações e gerar extrato.
+// Classe responsável pela autenticação dos usuários
+public class AuthService {
+    private Map<String, User> users;
 
-
-public class AccountService {
-    private final AccountRepository accountRepository;
-
-    public AccountService() {
-        this.accountRepository = new AccountRepository();
+    public AuthService() {
+        this.users = new HashMap<>();
+        // Criando alguns usuários iniciais
+        users.put("admin", new User("admin", "1234"));
+        users.put("user", new User("user", "abcd"));
     }
 
-    public boolean deposit(int accountId, double amount) {
-        if (amount <= 0) return false;
-        return accountRepository.updateBalance(accountId, amount);
-        
-    }
-    
-    public boolean createAccount(String cpf) {
-    	Account account = new Account();
-    	account.setCpf(cpf);
-    	account.setBalance(0.0);
-    	
-    	return accountRepository.save(account);
+    public boolean authenticate(String username, String password) {
+        User user = users.get(username);
+
+        if (user == null) {
+            System.out.println("Usuário não encontrado.");
+            return false;
+        }
+
+        if (user.isBlocked()) {
+            System.out.println("Conta bloqueada. Contate o suporte.");
+            return false;
+        }
+
+        if (user.getPassword().equals(password)) {
+            System.out.println("Login realizado com sucesso!");
+            user.resetFailedLoginAttempts();
+            return true;
+        } else {
+            user.incrementFailedLoginAttempts();
+            System.out.println("Senha incorreta. Tentativas: " + user.getFailedLoginAttempts());
+
+            if (user.isBlocked()) {
+                System.out.println("Conta bloqueada após 3 tentativas falhas.");
+            }
+
+            return false;
+        }
     }
 }

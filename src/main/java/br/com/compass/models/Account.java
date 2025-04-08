@@ -1,38 +1,60 @@
-package br.com.compass.models;
+// Representa uma conta bancária vinculada a um usuário
+package entities;
 
-public class Account {
-	private int id;
-	private int userId;
-	private double balance;
-	
-	public Account(int id, int userId, double balance) {
-		this.id = id;
-		this.userId = userId;
-		this.balance = balance;
-	}
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 
-	public int getId() {
-		return id;
-	}
+@Entity
+@Table(name = "accounts")
+public class Account implements Serializable {
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    private static final long serialVersionUID = 1L;
 
-	public int getUserId() {
-		return userId;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    private String accountNumber;
+    private BigDecimal balance;
 
-	public double getBalance() {
-		return balance;
-	}
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
 
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-	
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
+
+    public Account() {
+    }
+
+    public Account(String accountNumber, BigDecimal balance, AccountStatus status, User user) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.status = status;
+        this.user = user;
+    }
+
+    // Getters e Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getAccountNumber() { return accountNumber; }
+    public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+
+    public BigDecimal getBalance() { return balance; }
+    public void setBalance(BigDecimal balance) { this.balance = balance; }
+
+    public AccountStatus getStatus() { return status; }
+    public void setStatus(AccountStatus status) { this.status = status; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public List<Transaction> getTransactions() { return transactions; }
+    public void setTransactions(List<Transaction> transactions) { this.transactions = transactions; }
 }
