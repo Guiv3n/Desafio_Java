@@ -1,34 +1,36 @@
 package br.com.compass.repositories;
 
-import br.com.compass.models.Account;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.compass.models.Account;
 
 // Classe responsável por acessar e manipular dados da conta bancária no "banco de dados".
 public class AccountRepository {
     private final List<Account> accounts = new ArrayList<>();
 
     // Atualiza o saldo da conta.
-    public boolean updateBalance(int accountId, double amount) {
+    public boolean updateBalance(Long accountId, BigDecimal amount) {
         Account account = findById(accountId);
         if (account == null) return false;
 
-        double newBalance = account.getBalance() + amount;
-        if (newBalance < 0) return false; // impede saldo negativo
+        BigDecimal newBalance = account.getBalance().add(amount);
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) return false; // impede saldo negativo
 
         account.setBalance(newBalance);
         return true;
     }
 
-    // Salva uma nova conta, sera alterado futurmanet
+    // Salva uma nova conta, será alterado futuramente.
     public boolean save(Account account) {
         return accounts.add(account); // adiciona na lista simulada
     }
 
     // Busca uma conta pelo ID.
-    public Account findById(int accountId) {
+    public Account findById(Long accountId) {
         for (Account acc : accounts) {
-            if (acc.getId() == accountId) {
+            if (acc.getId().equals(accountId)) {
                 return acc;
             }
         }

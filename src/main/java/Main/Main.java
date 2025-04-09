@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        AuthService authService = new AuthService();
+        MockAuthService authService = new MockAuthService();
 
         System.out.println("=== Sistema de Login ===");
 

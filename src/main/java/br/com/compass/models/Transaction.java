@@ -1,96 +1,55 @@
 package br.com.compass.models;
 
-//Representa uma transação bancária entre contas
-
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction implements Serializable {
 
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private Long id;
+    private static final long serialVersionUID = 1L;
 
- // Conta que realizou a transação
- @ManyToOne
- @JoinColumn(name = "sender_id", nullable = false)
- private Account sender;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
- // Conta que recebeu (se houver)
- @ManyToOne
- @JoinColumn(name = "receiver_id")
- private Account receiver;
+    private BigDecimal amount;
 
- private double amount;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
- @Enumerated(EnumType.STRING)
- private TransactionType type;
+    private LocalDateTime timestamp;
 
- @Enumerated(EnumType.STRING)
- private TransactionStatus status;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
- private LocalDateTime timestamp;
+    public Transaction() {
+        this.timestamp = LocalDateTime.now();
+    }
 
- public Transaction() {
-     this.timestamp = LocalDateTime.now();
- }
+    public Transaction(BigDecimal amount, TransactionType type, Account account) {
+        this.amount = amount;
+        this.type = type;
+        this.account = account;
+        this.timestamp = LocalDateTime.now();
+    }
 
- // Getters e setters...
+    // Getters e Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
- public Long getId() {
-     return id;
- }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
 
- public Account getSender() {
-     return sender;
- }
+    public TransactionType getType() { return type; }
+    public void setType(TransactionType type) { this.type = type; }
 
- public void setSender(Account sender) {
-     this.sender = sender;
- }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 
- public Account getReceiver() {
-     return receiver;
- }
-
- public void setReceiver(Account receiver) {
-     this.receiver = receiver;
- }
-
- public double getAmount() {
-     return amount;
- }
-
- public void setAmount(double amount) {
-     this.amount = amount;
- }
-
- public TransactionType getType() {
-     return type;
- }
-
- public void setType(TransactionType type) {
-     this.type = type;
- }
-
- public TransactionStatus getStatus() {
-     return status;
- }
-
- public void setStatus(TransactionStatus status) {
-     this.status = status;
- }
-
- public LocalDateTime getTimestamp() {
-     return timestamp;
- }
-
- public void setTimestamp(LocalDateTime timestamp) {
-     this.timestamp = timestamp;
- }
-}
-public class Transaction {
-
+    public Account getAccount() { return account; }
+    public void setAccount(Account account) { this.account = account; }
 }

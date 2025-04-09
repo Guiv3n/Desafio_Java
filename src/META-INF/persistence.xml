@@ -8,18 +8,18 @@
     <persistence-unit name="bankPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
-        <class>model.User</class>
-        <class>model.Account</class>
-        <class>model.Transaction</class>
+        <class>br.com.compass.models.User</class>
+        <class>br.com.compass.models.Account</class>
+        <class>br.com.compass.models.Transaction</class>
 
         <properties>
-            <!-- JDBC Config -->
+            <!-- Configuração do jdbc -->
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/banco"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value="1234"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
-            <!-- Hibernate Config -->
+            <!-- Hibernate  -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>

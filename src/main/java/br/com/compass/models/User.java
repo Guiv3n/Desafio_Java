@@ -1,11 +1,33 @@
 package br.com.compass.models;
 
-// Classe que representa um usuário do sistema
-public class User {
+// Representa um usuário do sistema
+
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String username;
     private String password;
     private int failedLoginAttempts;
     private boolean isBlocked;
+
+    // Contas associadas ao usuário
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts;
+
+    public User() {
+        // Construtor vazio necessário para JPA
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -14,21 +36,23 @@ public class User {
         this.isBlocked = false;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getPassword() {
-        return password;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public int getFailedLoginAttempts() {
-        return failedLoginAttempts;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public boolean isBlocked() {
-        return isBlocked;
-    }
+    public int getFailedLoginAttempts() { return failedLoginAttempts; }
+    public void setFailedLoginAttempts(int failedLoginAttempts) { this.failedLoginAttempts = failedLoginAttempts; }
+
+    public boolean isBlocked() { return isBlocked; }
+    public void setBlocked(boolean isBlocked) { this.isBlocked = isBlocked; }
+
+    public List<Account> getAccounts() { return accounts; }
+    public void setAccounts(List<Account> accounts) { this.accounts = accounts; }
 
     public void incrementFailedLoginAttempts() {
         this.failedLoginAttempts++;

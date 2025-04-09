@@ -1,5 +1,5 @@
 // Representa uma conta bancária vinculada a um usuário
-package entities;
+package br.com.compass.models;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
