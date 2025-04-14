@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence 
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="bancoPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Entidades -->
+        <class>br.com.compass.models.User</class>
+        <class>br.com.compass.models.Account</class>
+        <class>br.com.compass.models.Transaction</class>
+        <class>br.com.compass.models.RefundRequest</class>
+
+        <properties>
+            <!-- Config JDBC -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bank_system"/>
+            <property name="jakarta.persistence.jdbc.user" value="bank_user"/>
+            <property name="jakarta.persistence.jdbc.password" value="Gv8437-8981"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+
+            <!-- Desativa logs SQL -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false"/>
+
+            <!-- Configuração de geração de schema -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="jakarta.persistence.schema-generation.create-source" value="metadata"/>
+            <property name="jakarta.persistence.schema-generation.scripts.action" value="none"/>
+
+            <!-- (Opcional) Usa provider slf4j -->
+            <property name="org.jboss.logging.provider" value="slf4j"/>
+        </properties>
+    </persistence-unit>
+</persistence>

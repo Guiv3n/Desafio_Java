@@ -17,8 +17,12 @@ public class AccountService {
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bancoPU");
     private final TransactionService transactionService = new TransactionService();
 
-    // Cria uma nova conta para o usuário
-    public void createAccount(User user) {
+    // Gerencia contas bancárias. 
+    //Cria conta para usuário, realiza depósitos, saques e transferências.
+    //Usa TransactionService para registrar cada operação.
+
+
+    public void createAccountForUser(User user) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();

@@ -2,10 +2,16 @@ package br.com.compass.services;
 
 import br.com.compass.models.*;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import br.com.compass.models.RefundStatus;
+
 
 import java.time.LocalDateTime;
 
-// Serviço responsável por gerenciar estornos de transações
+// Gerencia estornos. Usuários solicitam, e gerentes aprovam ou rejeitam.
+//Verifica status da transação e se o estorno já foi feito.
+
+
 public class RefundService {
 
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bancoPU");

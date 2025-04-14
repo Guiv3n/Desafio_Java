@@ -1,10 +1,11 @@
 package br.com.compass.models;
 
+// Enum que define os tipos de transação (DEPOSIT, WITHDRAW, TRANSFER, REFUND).
 
-//Enum para definir os tipos de transação
+
 public enum TransactionType {
- DEPOSIT,
- WITHDRAWAL,
- TRANSFER,
- REVERSAL
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER,
+    REFUND
 }

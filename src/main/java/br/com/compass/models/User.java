@@ -5,6 +5,9 @@ package br.com.compass.models;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+// Representa um usuário do sistema. Contém CPF (como username),
+//senha (hash), permissão (USER ou MANAGER), status de bloqueio e tentativas de login.
+
 
 @Entity
 @Table(name = "users")
@@ -14,12 +17,17 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT")
     private Long id;
+
 
     private String username;
     private String password;
     private int failedLoginAttempts;
     private boolean isBlocked;
+
+    // NOVO: campo para definir o tipo de usuário (ex: USER, MANAGER)
+    private String permission;
 
     // Contas associadas ao usuário
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,6 +42,7 @@ public class User implements Serializable {
         this.password = password;
         this.failedLoginAttempts = 0;
         this.isBlocked = false;
+        this.permission = "USER"; // padrão
     }
 
     public Long getId() { return id; }
@@ -50,6 +59,9 @@ public class User implements Serializable {
 
     public boolean isBlocked() { return isBlocked; }
     public void setBlocked(boolean isBlocked) { this.isBlocked = isBlocked; }
+
+    public String getPermission() { return permission; }
+    public void setPermission(String permission) { this.permission = permission; }
 
     public List<Account> getAccounts() { return accounts; }
     public void setAccounts(List<Account> accounts) { this.accounts = accounts; }

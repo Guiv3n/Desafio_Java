@@ -3,6 +3,10 @@ package br.com.compass.models;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+// Representa uma solicitação de estorno. Armazena IDs de solicitante, 
+//aprovador, status da solicitação e a transação a ser estornada.
+
+
 
 @Entity
 @Table(name = "refund_requests")
@@ -12,7 +16,9 @@ public class RefundRequest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT")
     private Long id;
+
 
     // Transação que será estornada
     @OneToOne

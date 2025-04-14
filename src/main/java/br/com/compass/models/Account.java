@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+// Representa uma conta bancária. Contém número da conta, saldo, status (ACTIVE, BLOCKED, etc.) 
+// e associação ao usuário dono da conta.
+
+
 
 @Entity
 @Table(name = "accounts")
@@ -14,7 +18,9 @@ public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT")
     private Long id;
+
 
     private String accountNumber;
     private BigDecimal balance;

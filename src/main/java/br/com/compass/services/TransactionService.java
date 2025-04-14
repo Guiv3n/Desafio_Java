@@ -13,7 +13,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// Serviço responsável por registrar e consultar transações bancárias
+// Responsável por registrar transações no banco de dados com tipo, valor e status apropriado.
+
 public class TransactionService {
 
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bancoPU");

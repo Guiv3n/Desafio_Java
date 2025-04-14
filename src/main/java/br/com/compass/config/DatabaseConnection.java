@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 // isso conecta o java ao Mysql, se der algum problema ele lança uma excessão 
 public class DatabaseConnection {
-	private static final String URL = "jdbc:mysql://localhost:3306/bank_system\";";
+	private static final String URL = "jdbc:mysql://localhost:3306/bank_system";
 	private static final String USER = "bank_user";
 	private static final String PASSWORD  = "Gv8437-8981";
 	

@@ -7,15 +7,18 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
+import java.io.FileWriter;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-// Classe responsável por gerar o extrato bancário de uma conta
+// Exibe e exporta o extrato bancário da conta (para diretório temporário do sistema, de forma portátil).
+
+
+
 public class StatementService {
 
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bancoPU");
 
-    // Busca e exibe todas as transações de uma conta
     public void printStatement(Long accountId) {
         EntityManager em = emf.createEntityManager();
 
@@ -32,22 +35,22 @@ public class StatementService {
             }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
             System.out.println("======= Extrato Bancário =======");
+
             for (Transaction t : transactions) {
                 System.out.println("Tipo: " + t.getType());
                 System.out.println("Valor: R$ " + t.getAmount());
                 System.out.println("Data/Hora: " + t.getTimestamp().format(formatter));
                 System.out.println("-------------------------------");
             }
+
         } catch (Exception e) {
             System.out.println("Erro ao gerar extrato: " + e.getMessage());
         } finally {
             em.close();
         }
     }
-    
- // Exporta o extrato da conta para um arquivo CSV
+
     public void exportToCsv(Long accountId, String filePath) {
         EntityManager em = emf.createEntityManager();
 
@@ -57,13 +60,13 @@ public class StatementService {
             query.setParameter("accountId", accountId);
 
             List<Transaction> transactions = query.getResultList();
-
             if (transactions.isEmpty()) {
                 System.out.println("Nenhuma transação encontrada para exportar.");
                 return;
             }
 
-            java.io.FileWriter writer = new java.io.FileWriter(filePath);
+            String path = System.getProperty("java.io.tmpdir") + "extrato_" + accountId + ".csv";
+            FileWriter writer = new FileWriter(path);
             writer.write("ID,TIPO,VALOR,DATA\n");
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -79,7 +82,7 @@ public class StatementService {
             }
 
             writer.close();
-            System.out.println("Extrato exportado com sucesso para: " + filePath);
+            System.out.println("Extrato exportado com sucesso para: " + path);
 
         } catch (Exception e) {
             System.out.println("Erro ao exportar extrato: " + e.getMessage());

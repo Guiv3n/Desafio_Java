@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+// Representa uma transação bancária. Guarda valor, tipo (DEPOSIT, WITHDRAW, etc.), 
+//status, data/hora e conta associada.
+
+
 
 @Entity
 @Table(name = "transactions")
@@ -13,12 +17,17 @@ public class Transaction implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT")
     private Long id;
+
 
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status; // <- Campo adicionado
 
     private LocalDateTime timestamp;
 
@@ -46,6 +55,9 @@ public class Transaction implements Serializable {
 
     public TransactionType getType() { return type; }
     public void setType(TransactionType type) { this.type = type; }
+
+    public TransactionStatus getStatus() { return status; } // <- Getter novo
+    public void setStatus(TransactionStatus status) { this.status = status; } // <- Setter novo
 
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }

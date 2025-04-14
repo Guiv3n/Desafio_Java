@@ -6,6 +6,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
+// Operações com entidade User: buscar por CPF, salvar, atualizar. Usado pelo AuthService.
+
+
+
 public class UserRepository {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bancoPU");

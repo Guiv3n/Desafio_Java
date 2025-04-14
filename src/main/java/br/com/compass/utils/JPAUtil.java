@@ -1,12 +1,11 @@
-package Util;
+package br.com.compass.utils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-// Utilitário para fornecer EntityManager para operações com JPA
-public class JpaUtil {
-
+// Classe utilitária para obter EntityManager
+public class JPAUtil {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bancoPU");
 
     public static EntityManager getEntityManager() {
