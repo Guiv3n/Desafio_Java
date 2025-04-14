@@ -37,7 +37,9 @@ public class BankController {
             System.out.println("7. Solicitar estorno");
             System.out.println("8. Aprovar estorno (gerente)");
             System.out.println("9. Rejeitar estorno (gerente)");
-            System.out.println("10. Cadastrar novo gerente (somente gerente master)");
+            System.out.println("10. Cadastrar novo cliente (usuário comum)");
+            System.out.println("11. Cadastrar novo gerente (somente gerente master)");
+            System.out.println("12. Trocar de usuário (logout)");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -180,13 +182,26 @@ public class BankController {
                     Long refundIdR = scanner.nextLong();
                     refundService.rejectRefund(refundIdR, user.getId());
                     break;
-
                 case 10:
-                    if (!"MANAGER".equals(user.getPermission())) {
-                        System.out.println("Apenas gerentes podem cadastrar outros gerentes.");
-                        break;
-                    }
+                    System.out.print("CPF do novo cliente: ");
+                    String newClientUsername = scanner.next();
 
+                    System.out.print("Senha do novo cliente: ");
+                    String newClientPassword = scanner.next();
+
+                    boolean clientCreated = authService.register(newClientUsername, newClientPassword, "USER");
+                    if (clientCreated) {
+                        System.out.println("Cliente cadastrado com sucesso!");
+                    } else {
+                        System.out.println("Já existe um usuário com este CPF.");
+                    }
+                    break;
+                    
+                case 11:
+                	if (!"03367721069".equals(user.getUsername())) {
+                	    System.out.println("Apenas o gerente master pode cadastrar outros gerentes.");
+                	    break;
+                	}
                     System.out.print("CPF do novo gerente: ");
                     String newManagerUsername = scanner.next();
 
@@ -200,6 +215,10 @@ public class BankController {
                         System.out.println("Já existe um usuário com este CPF.");
                     }
                     break;
+                case 12:
+                    System.out.println("Encerrando sessão atual e retornando ao login.");
+                    return; // retorna ao App.main pra voltar pro login inicial, serve pra mudar de usuario
+
 
                 case 0:
                     System.out.println("Encerrando sessão.");

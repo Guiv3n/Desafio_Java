@@ -20,6 +20,7 @@ public class App {
         BankController bankController = new BankController();
 
         boolean running = true;
+
         while (running) {
             System.out.println("========= Menu Principal =========");
             System.out.println("1. Login");
@@ -28,12 +29,12 @@ public class App {
 
             if (!scanner.hasNextInt()) {
                 System.out.println("Entrada inválida. Digite um número.");
-                scanner.nextLine(); // limpa o buffer
+                scanner.nextLine();
                 continue;
             }
 
             int option = scanner.nextInt();
-            scanner.nextLine(); // consome quebra de linha
+            scanner.nextLine(); // consome o ENTER
 
             switch (option) {
                 case 1:
